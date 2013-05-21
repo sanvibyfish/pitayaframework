@@ -35,8 +35,10 @@ import com.pitaya.framework.R;
  * 缓存图片目录参数 imageCacheDirectory
  * 默认图片参数 stub_id
  * @author sanvi
- *
+ * @email sanvibyfish@gmail.com
+ * 请使用ImageLoaderUtils
  */
+@Deprecated 
 public class ImageLoader {
 	
 	private static ImageLoader instance;
