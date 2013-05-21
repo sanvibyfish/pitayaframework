@@ -22,14 +22,7 @@ import com.pitaya.framework.R;
  * @version 创建时间2010-8-19 上午11:54:22
  */
 public abstract class BaseTask extends AsyncTask<Runnable, Void, MsgResult>  {
-	private static final int STATE_FINISH = 1;
-	private static final int STATE_ERROR = 2;
-	protected static final String PROGRESS_DIALOG = null;
-	private static ProgressDialog progressDialog = null;
 	protected Context context = null;
-	private String preDialogMessage = null;
-	private boolean isLoading = true;
-	
 	
 	private static String TAG = "BaseTask";
 	private static boolean DEBUG = true;
@@ -85,31 +78,12 @@ public abstract class BaseTask extends AsyncTask<Runnable, Void, MsgResult>  {
 		public void onTaskInitListener();
 	}
 
-	/* 该方法将在执行实际的后台操作前被UI thread调用。可以在该方法中做一些准备工作，如在界面上显示一个进度条�?*/
-	public BaseTask(String preDialogMessage, Context context){
-		initBaseTask(preDialogMessage, context, true);
+	public BaseTask(Context context){
 		if(onTaskInitListener != null) {
 			onTaskInitListener.onTaskInitListener();
 		}
 	}
 	
-	private void  initBaseTask(String preDialogMessage, Context context,boolean isLoading){
-		this.preDialogMessage = preDialogMessage;
-		this.context = context;
-		this.isLoading = isLoading;
-	}
-	
-	
-
-	/**
-	 * @param preDialogMessage
-	 * @param context
-	 * @param isLoading true为默认loading，false为不做loading
-	 * 
-	 */
-	public BaseTask(Context context){
-		initBaseTask("", context, false);
-	}
 	
 
 	public interface OnInvokeBeforeListener {
@@ -123,22 +97,12 @@ public abstract class BaseTask extends AsyncTask<Runnable, Void, MsgResult>  {
 	
 	@Override
 	 protected void onPreExecute() {
-		//如果isLoading等于true，表示调用系统loading
-		if(isLoading){
-				progressDialog = new ProgressDialog(context);
-				progressDialog.setTitle("");
-				progressDialog.setMessage(preDialogMessage);
-				progressDialog.setIndeterminate(true);
-				progressDialog.show();
-		}
-		
 		//执行客户写的代码
 		if(onInvokeBeforeListener != null) {
 			onInvokeBeforeListener.onInvokeBefore();
 		}
 	}
 
-	/* 执行那些很耗时的后台计算工作。可以调用publishProgress方法来更新实时的任务进度*/
 	@Override
 	protected MsgResult doInBackground(Runnable... runnables) {
 		MsgResult result = new MsgResult();
@@ -184,10 +148,6 @@ public abstract class BaseTask extends AsyncTask<Runnable, Void, MsgResult>  {
 	 */
 	@Override
 	protected void onPostExecute(MsgResult result) {
-		if(isLoading){
-			progressDialog.dismiss();
-		}
-		
 		if(result.successed && onInvokeAfterListener != null){
 			onInvokeAfterListener.onInvokeAter(result);
 		}else if (onInvokeErrorListener != null ){

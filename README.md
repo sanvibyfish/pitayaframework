@@ -1,5 +1,7 @@
-AndoridSupport
+PitayaFramework
 ==============
+Author: Sanvi Lu
+Email: sanvibyfish@gmail.com
 
 android开发框架
 

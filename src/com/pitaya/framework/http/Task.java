@@ -37,10 +37,6 @@ public class Task extends BaseTask implements ReturnResult{
 	}
 	
 	
-	public Task(String preDialogMessage, Context context) {
-		super(preDialogMessage, context);
-	}
-
 	@Override
 	public Result getResult() {
 		if(onTaskRequestListener != null) {
