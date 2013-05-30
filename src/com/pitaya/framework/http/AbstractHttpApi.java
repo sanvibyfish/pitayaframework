@@ -46,7 +46,7 @@ public abstract class AbstractHttpApi implements HttpApi {
 	
 	private static final String TAG = "AbstractHttpApi";
 	
-    private static final String DEFAULT_CLIENT_VERSION = "com.fg114.maimaijia";
+    private static final String DEFAULT_CLIENT_VERSION = "com.pitaya.framework";
     private static final String CLIENT_VERSION_HEADER = "User-Agent";
     private static final int TIMEOUT = 30;
     private static final boolean DEBUG = true;

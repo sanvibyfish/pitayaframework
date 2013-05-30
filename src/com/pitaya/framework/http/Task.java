@@ -6,7 +6,7 @@ import com.pitaya.framework.http.BaseTask.OnInvokeBeforeListener;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-public class Task extends BaseTask implements ReturnResult{
+public class Task extends BaseTask {
 
 	private OnTaskRequestListener onTaskRequestListener;
 	
@@ -37,26 +37,20 @@ public class Task extends BaseTask implements ReturnResult{
 	}
 	
 	
-	@Override
-	public Result getResult() {
-		if(onTaskRequestListener != null) {
-			return onTaskRequestListener.getResult();
-		}else{
-			return null;
-		}
-	}
 
 	@Override
-	public void request() throws Exception {
+	public Result request() throws Exception {
 		if(onTaskRequestListener != null) {
-			onTaskRequestListener.onRequest();
+			return onTaskRequestListener.onRequest();
 		}
+		return null;
 	}
 	
 	
 	public interface OnTaskRequestListener {
-		public void onRequest() throws Exception;
-		public Result getResult();
+		public Result onRequest() throws Exception;
 	}
+
+
 
 }
