@@ -26,16 +26,8 @@ public abstract class BaseTask extends AsyncTask<String, Void, TaskResult>  {
 	
 	private static String TAG = "BaseTask";
 	private static boolean DEBUG = true;
-	private static OnTaskInitListener onTaskInitListener;
 	
 	
-	public static OnTaskInitListener getOnTaskInitListener() {
-		return onTaskInitListener;
-	}
-
-	public static void setOnTaskInitListener(OnTaskInitListener onTaskInitListener) {
-		BaseTask.onTaskInitListener = onTaskInitListener;
-	}
 
 	private  OnInvokeBeforeListener onInvokeBeforeListener;
 	public OnInvokeBeforeListener getOnInvokeBeforeListener() {
@@ -51,16 +43,7 @@ public abstract class BaseTask extends AsyncTask<String, Void, TaskResult>  {
 	
 	private OnInvokeAterListener onInvokeAfterListener;
 
-	private OnInvokeErrorListener onInvokeErrorListener;
 	
-	public OnInvokeErrorListener getOnInvokeErrorListener() {
-		return onInvokeErrorListener;
-	}
-
-	public void setOnInvokeErrorListener(OnInvokeErrorListener onInvokeErrorListener) {
-		this.onInvokeErrorListener = onInvokeErrorListener;
-	}
-
 	public interface OnInvokeErrorListener {
 		public void onInvokeError(TaskResult result);
 	}
@@ -74,17 +57,6 @@ public abstract class BaseTask extends AsyncTask<String, Void, TaskResult>  {
 		return this;
 	}
 
-	private interface OnTaskInitListener {
-		public void onTaskInitListener();
-	}
-
-	public BaseTask(Context context){
-		if(onTaskInitListener != null) {
-			onTaskInitListener.onTaskInitListener();
-		}
-	}
-	
-	
 
 	public interface OnInvokeBeforeListener {
 		public void onInvokeBefore();
@@ -125,10 +97,8 @@ public abstract class BaseTask extends AsyncTask<String, Void, TaskResult>  {
 	 */
 	@Override
 	protected void onPostExecute(TaskResult result) {
-		if(result.successed && onInvokeAfterListener != null){
+		if(onInvokeAfterListener != null){
 			onInvokeAfterListener.onInvokeAter(result);
-		}else if (onInvokeErrorListener != null ){
-			onInvokeErrorListener.onInvokeError(result);
 		}
 	}
 	

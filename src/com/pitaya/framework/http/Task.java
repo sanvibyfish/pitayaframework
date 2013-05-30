@@ -32,8 +32,8 @@ public class Task extends BaseTask {
 	}
 	
 
-	public Task(Context context) {
-		super(context);
+	public Task() {
+		super();
 	}
 	
 	
