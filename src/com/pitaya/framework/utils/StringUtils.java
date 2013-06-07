@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,6 +86,13 @@ public class StringUtils {
 		return sb.toString();
 	}
 	
+	/**
+	 * Use toLowerCase(Locale) instead
+	 * @return
+	 */
+	public static String toLowerCase(String str){
+		return str.toLowerCase(Locale.getDefault());
+	}
 	
     private static List<NameValuePair> stripNulls(NameValuePair... nameValuePairs) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
