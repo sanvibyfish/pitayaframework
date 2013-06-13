@@ -44,9 +44,6 @@ public abstract class BaseTask extends AsyncTask<String, Void, TaskResult>  {
 	private OnInvokeAterListener onInvokeAfterListener;
 
 	
-	public interface OnInvokeErrorListener {
-		public void onInvokeError(TaskResult result);
-	}
 	
 	public OnInvokeAterListener getOnInvokeAfterListener() {
 		return onInvokeAfterListener;
