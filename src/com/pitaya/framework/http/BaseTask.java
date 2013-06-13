@@ -107,5 +107,8 @@ public abstract class BaseTask extends AsyncTask<String, Void, TaskResult>  {
 	 */
 	abstract public Result request() throws Exception;
 	
+	public void execute(){
+		super.execute();
+	}
 	
 }
