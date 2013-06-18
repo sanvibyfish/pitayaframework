@@ -71,11 +71,13 @@ public class DateUtils { // repeat inventing the wheels - reiz
 	public static final String DATE_PATTEN_YMDHM = "yyyy-MM-dd HH:mm";
 	public static final String DATE_PATTEN_YMDHMS = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_PATTEN_YMDHMSSSS = "yyyy-MM-dd HH:mm:ss SSS";
-
+	public static final String DATE_PATTEN_HMS = "HH:mm:ss";
+	
 	private static final SimpleDateFormat YMD = new SimpleDateFormat(DATE_PATTEN_YMD);
 	private static final SimpleDateFormat YMDHM = new SimpleDateFormat(DATE_PATTEN_YMDHM);
 	private static final SimpleDateFormat YMDHMS = new SimpleDateFormat(DATE_PATTEN_YMDHMS);
 	private static final SimpleDateFormat YMDHMSSSS = new SimpleDateFormat(DATE_PATTEN_YMDHMSSSS);
+	private static final SimpleDateFormat HMS = new SimpleDateFormat(DATE_PATTEN_HMS);
 
 	private static final Map<String, SimpleDateFormat> formatterCache = new HashMap<String, SimpleDateFormat>();
 
@@ -84,6 +86,7 @@ public class DateUtils { // repeat inventing the wheels - reiz
 		formatterCache.put(DATE_PATTEN_YMDHM, YMDHM);
 		formatterCache.put(DATE_PATTEN_YMDHMS, YMDHMS);
 		formatterCache.put(DATE_PATTEN_YMDHMSSSS, YMDHMSSSS);
+		formatterCache.put(DATE_PATTEN_HMS, HMS);
 	}
 
 	private static SimpleDateFormat getFormatter(String patten) {
@@ -127,10 +130,18 @@ public class DateUtils { // repeat inventing the wheels - reiz
 		return DateUtils.formatDate(DATE_PATTEN_YMD,date);
 	}
 
+	
 	public static Date parseDateYMD(String dateString) {
 		return DateUtils.parseDate(DATE_PATTEN_YMD,dateString);
 	}
 
+	public static String formatDateHMS(Date date) {
+		return DateUtils.formatDate(DATE_PATTEN_HMS,date);
+	}
+	
+	public static Date parseDateHMS(String dateString) {
+		return DateUtils.parseDate(DATE_PATTEN_HMS,dateString);
+	}
 	public static String formatDateYMDHM(Date date) {
 		return DateUtils.formatDate(DATE_PATTEN_YMDHM,date);
 	}

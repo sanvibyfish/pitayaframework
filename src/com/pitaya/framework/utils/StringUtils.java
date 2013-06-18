@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,6 +93,10 @@ public class StringUtils {
 	 */
 	public static String toLowerCase(String str){
 		return str.toLowerCase(Locale.getDefault());
+	}
+	
+	public static String encode(String str) throws Exception{
+		return URLEncoder.encode(str,"UTF-8").replaceAll("\\+", "%20");
 	}
 	
     private static List<NameValuePair> stripNulls(NameValuePair... nameValuePairs) {
