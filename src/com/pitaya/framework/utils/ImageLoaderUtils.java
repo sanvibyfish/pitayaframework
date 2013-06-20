@@ -1,9 +1,11 @@
 package com.pitaya.framework.utils;
 
+import android.content.Context;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.pitaya.framework.R;
 
@@ -17,6 +19,8 @@ public class ImageLoaderUtils {
 	.cacheOnDisc()
 	.build();
 	
+
+	
 	public static void displayImage(String uri, ImageView imageView){
 		ImageLoader.getInstance().displayImage(uri, imageView,options);
 	}
@@ -25,7 +29,8 @@ public class ImageLoaderUtils {
 		ImageLoader.getInstance().displayImage(uri, imageView,options);
 	}
 	
-	public static void loadImage(String uri, SimpleImageLoadingListener listener){
+	public static void loadImage(String uri, SimpleImageLoadingListener listener, Context context){
+		ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
 		ImageLoader.getInstance().loadImage(uri, listener);
 	}
 	

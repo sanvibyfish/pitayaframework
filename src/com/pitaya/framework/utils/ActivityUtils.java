@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
@@ -239,5 +241,17 @@ public class ActivityUtils {
 	
 	public static float getPX(Context context, int dipValue){
 		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, context.getResources().getDisplayMetrics());
+	}
+	
+	public static void showInput(EditText editText){
+		InputMethodManager inputManager =  
+                (InputMethodManager)editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
+            inputManager.showSoftInput(editText, 0);  
+	}
+	
+	public static void hideInput(EditText editText){
+		InputMethodManager inputManager =  
+                (InputMethodManager)editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
+            inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);  
 	}
 }
