@@ -119,7 +119,7 @@ public class LoadViewActivity extends ActivityGroup {
 	public void back(ViewAnimator mAnimator){
 		String oldId = mIds.pop();
 		Activity oldActivity = activityManager.getActivity(oldId);
-		mAnimator.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.in_lefttoright));
+		mAnimator.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
 		Log.i(LoadViewActivity.class.getSimpleName(),"oldActivity Name:" + oldActivity.getClass().getSimpleName());
 		mAnimator.removeView(oldActivity.getWindow().getDecorView());
 		if(mIds.size() > 0){
