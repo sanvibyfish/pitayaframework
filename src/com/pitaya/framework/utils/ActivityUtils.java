@@ -1,7 +1,5 @@
 package com.pitaya.framework.utils;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -13,6 +11,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,7 +28,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.ViewAnimator;
+
+import java.util.List;
 
 
 /**
@@ -254,4 +254,41 @@ public class ActivityUtils {
                 (InputMethodManager)editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
             inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);  
 	}
+
+    public static boolean isApkAvailable(Context context, String packageName) {
+        PackageInfo packageInfo;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(
+                    packageName, 0);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            packageInfo = null;
+        }
+        if(packageInfo ==null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public static void openApk(Context context, String packageName) {
+        if(isApkAvailable(context, packageName)){
+            Intent intent = new Intent();
+            intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+            context.startActivity(intent);
+        }else{//未安装，跳转至market下载该程序
+            Uri uri = Uri.parse("market://details?id=" + packageName);
+            Intent it = new Intent(Intent.ACTION_VIEW, uri);
+            context.startActivity(it);
+        }
+    }
+
+    public static Drawable getDrawable(Context context, String mDrawableName){
+        Resources res = context.getResources();
+        int resID = res.getIdentifier(mDrawableName , "drawable", context.getPackageName());
+        Drawable drawable = res.getDrawable(resID );
+        return drawable;
+    }
+
+
 }

@@ -1,45 +1,42 @@
 package com.pitaya.framework.http;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.scheme.SocketFactory;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
-import android.util.Log;
+import javax.net.ssl.HostnameVerifier;
 
 
 public abstract class AbstractHttpApi implements HttpApi {
@@ -63,6 +60,17 @@ public abstract class AbstractHttpApi implements HttpApi {
             mClientVersion = DEFAULT_CLIENT_VERSION;
         }
     }
+    
+    public AbstractHttpApi(DefaultHttpClient httpClient, String clientVersion,boolean ssl) {
+        mHttpClient = httpClient;
+        if (clientVersion != null) {
+            mClientVersion = clientVersion;
+        } else {
+            mClientVersion = DEFAULT_CLIENT_VERSION;
+        }
+    }
+    
+    
     
     public InputStream executeHttpRequestSuccess(HttpRequestBase httpRequest) throws Exception{
     	 HttpResponse response = executeHttpRequest(httpRequest);
@@ -201,15 +209,25 @@ public abstract class AbstractHttpApi implements HttpApi {
         // Register the "http" protocol scheme, it is required
         // by the default operator to look up socket factories.
         final SocketFactory sf = PlainSocketFactory.getSocketFactory();
-        supportedSchemes.register(new Scheme("http", sf, 80));
 
+        HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+        SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+        socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+
+
+        supportedSchemes.register(new Scheme("http", sf, 80));
+        supportedSchemes.register(new Scheme("https",
+                SSLSocketFactory.getSocketFactory(), 443));
         // Set some client http client parameter defaults.
         final HttpParams httpParams = createHttpParams();
         HttpClientParams.setRedirecting(httpParams, false);
 
-        final ClientConnectionManager ccm = new ThreadSafeClientConnManager(httpParams,
-                supportedSchemes);
-        return new DefaultHttpClient(ccm, httpParams);
+//        final ClientConnectionManager ccm = new ThreadSafeClientConnManager(httpParams,
+//                supportedSchemes);
+        SingleClientConnManager mgr = new SingleClientConnManager(httpParams, supportedSchemes);
+
+//        return new DefaultHttpClient(ccm, httpParams);
+        return new DefaultHttpClient(mgr, httpParams);
     }
 
     /**

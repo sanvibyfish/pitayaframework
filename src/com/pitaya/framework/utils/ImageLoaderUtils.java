@@ -19,7 +19,10 @@ public class ImageLoaderUtils {
 	.cacheOnDisc()
 	.build();
 	
-
+	public static void displayImage(String uri, ImageView imageView, Context context){
+		ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
+		ImageLoader.getInstance().displayImage(uri, imageView,options);
+	}
 	
 	public static void displayImage(String uri, ImageView imageView){
 		ImageLoader.getInstance().displayImage(uri, imageView,options);
@@ -32,6 +35,7 @@ public class ImageLoaderUtils {
 	public static void loadImage(String uri, SimpleImageLoadingListener listener, Context context){
 		ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
 		ImageLoader.getInstance().loadImage(uri, listener);
+		ImageLoader.getInstance().destroy();
 	}
 	
 	

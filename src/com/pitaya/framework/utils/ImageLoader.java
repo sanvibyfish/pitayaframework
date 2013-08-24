@@ -82,7 +82,6 @@ public class ImageLoader {
             cacheDir.mkdirs();
     }
     
-    
     public void displayImage(String url, ImageView imageView)
     {
         if(cache.containsKey(url))
@@ -267,11 +266,12 @@ public class ImageLoader {
                         }
                         Bitmap bmp=getBitmap(photoToLoad.url);
                         cache.put(photoToLoad.url, bmp);
-                        if(((String)photoToLoad.imageView.getTag()).equals(photoToLoad.url)){
-                            BitmapDisplayer bd=new BitmapDisplayer(bmp, photoToLoad.imageView);
-                            Activity a=(Activity)photoToLoad.imageView.getContext();
-                            a.runOnUiThread(bd);
-                        }
+                        Object cacheUrl = photoToLoad.imageView.getTag();
+                        	if(cacheUrl != null && ((String)cacheUrl).equals(photoToLoad.url)) {
+                        		BitmapDisplayer bd=new BitmapDisplayer(bmp, photoToLoad.imageView);
+                                Activity a=(Activity)photoToLoad.imageView.getContext();
+                                a.runOnUiThread(bd);
+                        	}
                     }
                     if(Thread.interrupted())
                         break;
