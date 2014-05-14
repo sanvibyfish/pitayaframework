@@ -1,1 +1,4 @@
 /bin
+gen/com/pitaya/framework/BuildConfig.java
+gen/com/pitaya/framework/Manifest.java
+gen/com/pitaya/framework/R.java
