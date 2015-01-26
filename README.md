@@ -3,6 +3,8 @@ PitayaFramework
 Author: Sanvi Lu
 Email: sanvibyfish@gmail.com
 
+
+**moved:https://github.com/sanvibyfish/android-nothing-http**
 android开发框架
 
 #前言
